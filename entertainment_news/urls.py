@@ -16,7 +16,10 @@ urlpatterns = [
     path('savevideoofaajtk/', views.savevideourl_of_aajtk),
     path('feed/', feed.Videofeed()),
     path('feedforaajtk/', feed_for_aajtk.Videofeed()),
-    path('clean/', cleanupfunction.cleanupFunction)
+    path('clean/', cleanupfunction.cleanupFunction),
+    path('cleanfromdb/', cleanupfunction.cleanupfromdbFunction),
+
+
 
     # path('test/', views.test),
 

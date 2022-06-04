@@ -17,6 +17,21 @@ def cleanupFunction(request):
         topics = entertainmentSaveVideonews_for_aajtk.objects.filter(videoPublicId__icontains=formatted)
         print(topics)
         serializer = Get_Savevideoserializer_of_aajtk(topics, many=True)
+        print(topics)
+
+        return Response(serializer.data)
+
+@renderer_classes((TemplateHTMLRenderer, JSONRenderer))
+@api_view(('GET',))
+def cleanupfromdbFunction(request):
+    if request.method == 'GET':
+        NextDay_Date = datetime.datetime.today() - datetime.timedelta(days=1)
+        print(NextDay_Date)
+        formatted = NextDay_Date.strftime("%y-%m-%d")
+        print(formatted)
+        topics = entertainmentSaveVideonews_for_aajtk.objects.filter(videoPublicId__icontains=formatted)
+        print(topics)
+        serializer = Get_Savevideoserializer_of_aajtk(topics, many=True)
         entertainmentSaveVideonews_for_aajtk.objects.filter(videoPublicId__icontains=formatted).delete()
         print(topics)
 
