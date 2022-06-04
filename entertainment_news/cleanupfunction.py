@@ -16,7 +16,8 @@ def cleanupFunction(request):
         print(formatted)
         topics = entertainmentSaveVideonews_for_aajtk.objects.filter(videoPublicId__icontains=formatted)
         print(topics)
-        entertainmentSaveVideonews_for_aajtk.objects.filter(videoPublicId__icontains=formatted).delete()
         serializer = Get_Savevideoserializer_of_aajtk(topics, many=True)
+        entertainmentSaveVideonews_for_aajtk.objects.filter(videoPublicId__icontains=formatted).delete()
+        print(topics)
 
         return Response(serializer.data)
