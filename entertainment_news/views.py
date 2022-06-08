@@ -29,6 +29,7 @@ def getNextrandom_for_aajtk(request):
 def getTitle(request):
     if request.method=='GET':
         title, summary, content, YTtitle = processArticle.findArticle()
+
         data={
             'title':title,
             'summary':summary,
@@ -47,6 +48,10 @@ def getTitle(request):
 def getTitle_from_aajtk(request):
     if request.method=='GET':
         title, content, summary, YTtitle = processArticle_from_aajtk.dataFromThearticles()
+        # print(title)
+        # print(summary)
+        # print(content)
+        # print(YTtitle)
         data={
             'title':title,
             'content':content,

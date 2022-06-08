@@ -37,17 +37,19 @@ def dataFromThearticles():
             urls = url[0]['href']
             url_list.append(urls)
             # print(url_list)
-            unique_url = getUniqueArticle(url_list)
+        unique_url = getUniqueArticle(url_list)
+        print('line 41')
         return articleContent(title,content,summary,YTtitle, unique_url)
     except Exception as e:
         print(e)
 
 
-def articleContent(title,content, description, YTtitle, urls):
+def articleContent(title,content, description, YTtitle, url):
+    print('line 47')
     try:
-        print(urls)
+        print(url)
         req = urllib.request.Request(
-            urls,
+            url,
             data=None,
 
             headers={
@@ -59,18 +61,18 @@ def articleContent(title,content, description, YTtitle, urls):
         soup = BeautifulSoup(data, 'html.parser')
         articlePara = getArticlePara(soup)
         # print('line 55')
-        # print(articlePara)
-        # print('line 57')
-        articletitle = getArticleTitle(soup)
-        # print(articletitle)
-        # print('line 60')
+        print(articlePara)
+        print('line 57')
+        articletitle = getArticleTitle(url)
+        print(articletitle)
+        print('line 60')
         description = getArticleTitle(soup)
-        # print(description)
+        print(description)
         # print('line 63')
         Yttitle = YtTitle(soup)
 
-        # print(Yttitle)
-        # print('line 67')
+        print(Yttitle)
+        print('line 67')
         # print(Yttitle)
 
         return articletitle,articlePara, description, Yttitle
@@ -90,13 +92,13 @@ def getArticlePara(soup):
 
 
 
-def getArticleTitle(soup):
+def getArticleTitle(url):
     try:
-        articletitle = soup.find_all("h1")
-        for i in articletitle:
-            articletitle = i.get_text()
-            # print(articletitle)
-            return articletitle
+        s = url.split('/')[-1]
+        s = s.replace('-', ' ')
+        s = s.split('tmov')
+        title_from_url = str(re.sub(r"[A-Za-z]+('[A-Za-z]+)?", lambda mo: mo.group(0).capitalize(), s[0]))
+        return title_from_url
     except Exception as e:
         print(e)
 
@@ -115,18 +117,19 @@ def YtTitle(soup):
 
 
 
-def getUniqueArticle(urls):
-    for url in urls:
+def getUniqueArticle(unique_url):
+    print('line 121')
+    for url in unique_url:
         try:
             s = url.split('/')[-1]
             s = s.replace('-', ' ')
             s = s.split('tmov')
             title_from_url = str(re.sub(r"[A-Za-z]+('[A-Za-z]+)?", lambda mo: mo.group(0).capitalize(), s[0]))
-            obj = models.entertainmentSaveVideonews_for_aajtk.objects.get(title=title_from_url)
+            obj = models.entertainmentNewsdb_for_aajtk.objects.get(title=title_from_url)
             print('line 124')
             print(obj)
             print('line 126')
-        except models.entertainmentSaveVideonews_for_aajtk.DoesNotExist:
+        except models.entertainmentNewsdb_for_aajtk.DoesNotExist:
             return url
 
 
