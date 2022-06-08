@@ -47,7 +47,7 @@ def getTitle(request):
 
 def getTitle_from_aajtk(request):
     if request.method=='GET':
-        title, content, summary, YTtitle = processArticle_from_aajtk.dataFromThearticles()
+        title, content, summary, YTtitle, image_url = processArticle_from_aajtk.dataFromThearticles()
         # print(title)
         # print(summary)
         # print(content)
@@ -56,7 +56,8 @@ def getTitle_from_aajtk(request):
             'title':title,
             'content':content,
             'summary': summary,
-            'Ytitle':YTtitle
+            'Ytitle':YTtitle,
+            'image_url':image_url
         }
         nextran = str(datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta( minutes=random.randrange(245, 350)))
         nextran = nextran[:19]

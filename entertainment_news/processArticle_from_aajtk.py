@@ -1,6 +1,6 @@
-import urllib.request
+# import urllib.request
 import xmltodict
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 from . import models
 import re
 import urllib.request
@@ -14,6 +14,7 @@ def dataFromThearticles():
         summary = ""
         YTtitle = ""
         unique_url = ""
+        image_url = ""
         url_list = []
         url = 'https://www.aajtak.in/entertainment/television'
         req = urllib.request.Request(
@@ -39,12 +40,12 @@ def dataFromThearticles():
             # print(url_list)
         unique_url = getUniqueArticle(url_list)
         print('line 41')
-        return articleContent(title,content,summary,YTtitle, unique_url)
+        return articleContent(title, content, summary, YTtitle, image_url, unique_url)
     except Exception as e:
         print(e)
 
 
-def articleContent(title,content, description, YTtitle, url):
+def articleContent(title, content, description, YTtitle, image_url, url):
     print('line 47')
     try:
         print(url)
@@ -62,20 +63,23 @@ def articleContent(title,content, description, YTtitle, url):
         articlePara = getArticlePara(soup)
         # print('line 55')
         print(articlePara)
-        print('line 57')
+        # print('line 57')
         articletitle = getArticleTitle(url)
         print(articletitle)
-        print('line 60')
+        # print('line 60')
         description = getArticleTitle(soup)
         print(description)
         # print('line 63')
+        image_url = getImageUrl(soup)
+        # print(image_url)
+        # print('line 75')
         Yttitle = YtTitle(soup)
 
         print(Yttitle)
         print('line 67')
         # print(Yttitle)
 
-        return articletitle,articlePara, description, Yttitle
+        return articletitle,articlePara, description, Yttitle, image_url
     except Exception as e:
         print(e)
 
@@ -132,6 +136,17 @@ def getUniqueArticle(unique_url):
         except models.entertainmentNewsdb_for_aajtk.DoesNotExist:
             return url
 
+
+def getImageUrl(soup):
+    try:
+        imageformurl = soup.find("div",{"class":"main-img"})
+        img = imageformurl.find("img",{"class":"lazyload"})
+        image_url = img['data-src']
+        print(image_url)
+        # imagedown = urllib.request.urlretrieve(image,'image.jpg') # this is for downloading the image from the url and save it to the current folder by the name which is in string(for ex: image.jpg)
+        return image_url
+    except Exception as e:
+        print(e)
 
 
 
