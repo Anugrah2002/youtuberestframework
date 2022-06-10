@@ -87,10 +87,8 @@ def articleContent(title, content, description, YTtitle, image_url, url):
 def getArticlePara(soup):
     try:
         content = soup.find_all("p")
-        content_text = ""
-        for i in content:
-            content_text = content_text + " " + i.get_text()
-        return content_text
+        sorted_content = removeUnwantedWords(content)
+        return sorted_content
     except Exception as e:
         print(e)
 
@@ -151,6 +149,18 @@ def getImageUrl(soup):
 
 
 
+def removeUnwantedWords(content):
+    para = ""
+    for words in content:
+        unwanted_words = words.find('a')
+        if (unwanted_words != None):
+            unwanted_words.decompose()
+        else:
+            para = para + words.get_text()
+    return para
+
+
+
 
 
 
@@ -167,4 +177,4 @@ def getImageUrl(soup):
 
 
 
-dataFromThearticles()
+# dataFromThearticles()
